@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Installer>
+    <Name>${APPLICATION_NAME}</Name>
+    <Version>${PROJECT_VERSION}</Version>
+    <Title>${APPLICATION_NAME} Installer</Title>
+    <Publisher>${ORGANISATION_NAME}-Elektronik</Publisher>
+    <StartMenuDir>${ORGANISATION_NAME}/${APPLICATION_NAME}</StartMenuDir>
+    <TargetDir>${INSTALLER_APP_DIR}/${ORGANISATION_NAME}/${APPLICATION_NAME}</TargetDir>
+</Installer>

@@ -1,0 +1,41 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "cmake QtPlayground Debug",
+      "type": "shell",
+      "isBackground": true,
+      "command": "cmake -Bbuild -GNinja -DCMAKE_BUILD_TYPE=Debug"
+    },
+    {
+      "label": "cmake QtPlayground Release",
+      "type": "shell",
+      "isBackground": true,
+      "command": "cmake -Bbuild -GNinja -DCMAKE_BUILD_TYPE=Release"
+    },
+    {
+      "label": "x86_64-w64-mingw32-cmake QtPlayground",
+      "type": "shell",
+      "isBackground": true,
+      "command": "x86_64-w64-mingw32-cmake -Bbuild -GNinja -DCMAKE_BUILD_TYPE=Release -DQT_DEBUG_FIND_PACKAGE=ON"
+    },
+    {
+      "label": "x86_64-w64-mingw32-cmake-static QtPlayground",
+      "type": "shell",
+      "isBackground": true,
+      "command": "x86_64-w64-mingw32-cmake-static -Bbuild -GNinja -DCMAKE_BUILD_TYPE=Release -DQT_DEBUG_FIND_PACKAGE=O"
+    },
+    {
+      "label": "ninja QtPlayground",
+      "type": "shell",
+      "isBackground": true,
+      "command": "ninja -C build QtPlayground"
+    },
+    {
+      "label": "run QtPlayground",
+      "type": "shell",
+      "isBackground": true,
+      "command": "./build/QtPlayground"
+    }
+  ]
+}
