@@ -45,3 +45,8 @@ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 6AF7F09730B3F0A4
 sudo apt update
 sudo apt install cmake
 ```
+
+OpenGL dependencies
+```sh
+sudo apt-get install libdrm-dev libgles2-mesa-dev
+```

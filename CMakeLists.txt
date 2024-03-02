@@ -27,8 +27,6 @@ add_executable(QtPlayground ${SRC})
 # Qt6 requires C++17
 target_compile_features(QtPlayground PUBLIC cxx_std_17)
 
-target_common_warnings(QtPlayground PRIVATE)
-
 if(CMAKE_BUILD_TYPE STREQUAL Release)
   if(CMAKE_TOOLCHAIN_FILE)
     set(QT_TOOLCHAIN_FILE_OPTION -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE})
@@ -54,6 +52,7 @@ if(CMAKE_BUILD_TYPE STREQUAL Release)
     -DFEATURE_system_zlib=OFF # -zlib
     -DFEATURE_system_freetype=OFF # -freetype
     -DFEATURE_system_harfbuzz=OFF # -harfbuzz
+    -DINPUT_opengl=no # -no-opengl
     -DFEATURE_libpng=ON # -libpng
     -DFEATURE_libjpeg=OFF # -libjpeg
     -DFEATURE_sql=OFF #
