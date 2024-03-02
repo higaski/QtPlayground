@@ -41,17 +41,24 @@ if(CMAKE_BUILD_TYPE STREQUAL Release)
     qtbase
     CMAKE_OPTIONS
     ${QT_TOOLCHAIN_FILE_OPTION}
+    -DFEATURE_xml=OFF # -no-feature-xml
+    -DFEATURE_dbus=OFF # -no-dbus
+    -DFEATURE_testlib=OFF # -no-feature-testlib
     -DCMAKE_BUILD_TYPE=Release # -release
     -DINPUT_optimize_size=ON # -optimize-size
     -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS} #
     -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=${DCMAKE_INTERPROCEDURAL_OPTIMIZATION} # -ltcg
-    -DFEATURE_dbus=OFF # -no-dbus
+    -DQT_BUILD_TESTS=OFF # -nomake
+    -DQT_BUILD_EXAMPLES=OFF
     -DFEATURE_system_doubleconversion=OFF # -doubleconversion
     -DFEATURE_glib=OFF # -glib
     -DFEATURE_system_pcre2=OFF # -pcre
     -DFEATURE_system_zlib=OFF # -zlib
-    -DFEATURE_fontconfig=ON # -fontconfig
-    -DFEATURE_system_harfbuzz=OFF # -harfbuzz
+    -DFEATURE_fontconfig=OFF # -fontconfig
+    -DFEATURE_freetype=ON # -freetype
+    -DFEATURE_system_freetype=OFF #
+    -DFEATURE_harfbuzz=OFF # -harfbuzz
+    -DFEATURE_system_harfbuzz=OFF #
     -DINPUT_opengl=no # -no-opengl
     -DFEATURE_libpng=ON # -libpng
     -DFEATURE_libjpeg=OFF # -libjpeg
@@ -61,8 +68,6 @@ if(CMAKE_BUILD_TYPE STREQUAL Release)
     -DINPUT_libjpeg=no # Workaround, DFEATURE_libjpeg not working
   )
 endif()
-
-# fontconfig and system_freetype are mutually exclusive!
 
 find_qt(REQUIRED COMPONENTS Core Widgets)
 
