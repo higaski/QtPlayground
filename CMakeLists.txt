@@ -47,7 +47,7 @@ if(CMAKE_BUILD_TYPE STREQUAL Release)
     -DINPUT_optimize_size=ON
     -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
     -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=${DCMAKE_INTERPROCEDURAL_OPTIMIZATION}
-    # Disable as much as possible
+    # Disable features that are not needed
     -DFEATURE_accessibility=OFF
     -DFEATURE_dbus=OFF
     -DFEATURE_cssparser=OFF
@@ -73,7 +73,8 @@ if(CMAKE_BUILD_TYPE STREQUAL Release)
     # Enable freetype to get some sort of font support
     -DFEATURE_freetype=ON
     -DFEATURE_system_freetype=OFF
-    # Disable all platform plugins but XCB
+    # Default to xcb and disable all other platform plugins
+    -DQT_QPA_DEFAULT_PLATFORM=xcb
     -DFEATURE_linuxfb=OFF
     -DFEATURE_vkkhrdisplay=OFF
     -DFEATURE_vnc=OFF
