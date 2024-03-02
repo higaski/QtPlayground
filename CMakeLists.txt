@@ -59,7 +59,6 @@ if(CMAKE_BUILD_TYPE STREQUAL Release)
     -DFEATURE_system_freetype=OFF #
     -DFEATURE_harfbuzz=OFF # -harfbuzz
     -DFEATURE_system_harfbuzz=OFF #
-    -DINPUT_opengl=no # -no-opengl
     -DFEATURE_libpng=ON # -libpng
     -DFEATURE_libjpeg=OFF # -libjpeg
     -DFEATURE_sql=OFF #
