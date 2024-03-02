@@ -63,9 +63,6 @@ if(CMAKE_BUILD_TYPE STREQUAL Release)
     -DFEATURE_libjpeg=OFF # -libjpeg
     -DFEATURE_sql=OFF #
     #
-    -DFEATURE_xcb=OFF #
-    -DFEATURE_eglfs=ON #
-    #
     -DFEATURE_zstd=OFF #
     -DINPUT_libjpeg=no # Workaround, DFEATURE_libjpeg not working
   )

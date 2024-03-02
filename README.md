@@ -54,3 +54,8 @@ First version which requires GLIBC_2.34 is v1.6.2181
 Versions before that follow a different naming scheme though...
 The previous version (v1.5.4.17) has a .zip filed called CQtDeployer_1.5.4.17_Linux_x86_64.zip
 Also... it doesn't have a windows zip version
+
+## Platforms
+https://stackoverflow.com/questions/21488072/what-is-the-use-of-various-qt-platform-plugins
+So... on Linux Qt can use various platforms. The default seems to be xcb
+So... xcb is trouble. When building with xcb on a system where it's installed, all is good. But Ubuntu 20.04 does not come with libxcb installed.
