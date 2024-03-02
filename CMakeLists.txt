@@ -19,6 +19,8 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(DCMAKE_INTERPROCEDURAL_OPTIMIZATION OFF)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
+
+# Qt comes with zlib, use it instead of zstd
 set(CMAKE_AUTORCC_OPTIONS "-compress-algo;zlib" "--compress;9")
 
 file(GLOB_RECURSE SRC src/*.c src/*.cpp)
@@ -41,31 +43,44 @@ if(CMAKE_BUILD_TYPE STREQUAL Release)
     qtbase
     CMAKE_OPTIONS
     ${QT_TOOLCHAIN_FILE_OPTION}
-    -DFEATURE_xml=OFF # -no-feature-xml
-    -DFEATURE_dbus=OFF # -no-dbus
-    -DFEATURE_testlib=OFF # -no-feature-testlib
-    -DCMAKE_BUILD_TYPE=Release # -release
-    -DINPUT_optimize_size=ON # -optimize-size
-    -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS} #
-    -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=${DCMAKE_INTERPROCEDURAL_OPTIMIZATION} # -ltcg
-    -DQT_BUILD_TESTS=OFF # -nomake
-    -DQT_BUILD_EXAMPLES=OFF
-    -DFEATURE_system_doubleconversion=OFF # -doubleconversion
-    -DFEATURE_glib=OFF # -glib
-    -DFEATURE_system_pcre2=OFF # -pcre
-    -DFEATURE_system_zlib=OFF # -zlib
-    -DFEATURE_fontconfig=OFF # -fontconfig
-    -DFEATURE_freetype=ON # -freetype
-    -DFEATURE_system_freetype=OFF #
-    -DFEATURE_harfbuzz=OFF # -harfbuzz
-    -DFEATURE_system_harfbuzz=OFF #
-    -DFEATURE_libpng=ON # -libpng
-    -DFEATURE_libjpeg=OFF # -libjpeg
-    -DFEATURE_sql=OFF #
-    #
-    -DFEATURE_zstd=OFF #
-    -DINPUT_libjpeg=no # Workaround, DFEATURE_libjpeg not working
-  )
+    -DCMAKE_BUILD_TYPE=Release
+    -DINPUT_optimize_size=ON
+    -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
+    -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=${DCMAKE_INTERPROCEDURAL_OPTIMIZATION}
+    # Disable as much as possible
+    -DFEATURE_accessibility=OFF
+    -DFEATURE_dbus=OFF
+    -DFEATURE_cssparser=OFF
+    -DFEATURE_glib=OFF
+    -DFEATURE_fontconfig=OFF
+    -DFEATURE_harfbuzz=OFF
+    -DFEATURE_ico=OFF
+    -DFEATURE_libjpeg=OFF
+    -DFEATURE_libpng=ON
+    -DFEATURE_opengl=OFF
+    -DFEATURE_sql=OFF
+    -DFEATURE_system_doubleconversion=OFF
+    -DFEATURE_system_harfbuzz=OFF
+    -DFEATURE_system_pcre2=OFF
+    -DFEATURE_system_zlib=OFF
+    -DFEATURE_testlib=OFF
+    -DFEATURE_texthtmlparser=OFF
+    -DFEATURE_textmarkdownreader=OFF
+    -DFEATURE_textmarkdownwriter=OFF
+    -DFEATURE_textodfwriter=OFF
+    -DFEATURE_vulkan=OFF
+    -DFEATURE_xml=OFF
+    # Enable freetype to get some sort of font support
+    -DFEATURE_freetype=ON
+    -DFEATURE_system_freetype=OFF
+    # Disable all platform plugins but XCB
+    -DFEATURE_linuxfb=OFF
+    -DFEATURE_vkkhrdisplay=OFF
+    -DFEATURE_vnc=OFF
+    -DFEATURE_zstd=OFF
+    # No FEATURE flags yet
+    -DINPUT_libjpeg=no
+    -DINPUT_libmd4c=no)
 endif()
 
 find_qt(REQUIRED COMPONENTS Core Widgets)
@@ -80,11 +95,11 @@ if(CMAKE_BUILD_TYPE STREQUAL Release)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/config.xml
                  ${CMAKE_BINARY_DIR}/config.xml)
 
-  #
-  get_cqtdeployer(VERSION 1.5.4.17 SYSTEMS Linux)
-  file(GLOB_RECURSE QMAKE_EXECUTABLE ${QT_BINARY_DIR}/*/qmake6)
-
   if(CMAKE_SYSTEM_NAME STREQUAL Linux)
+    #
+    get_cqtdeployer(VERSION 1.5.4.17 SYSTEMS Linux)
+    file(GLOB_RECURSE QMAKE_EXECUTABLE ${QT_BINARY_DIR}/*/qmake6)
+
     # Qt libs path
     execute_process(
       COMMAND ${QMAKE_EXECUTABLE} -query QT_INSTALL_LIBS
@@ -120,6 +135,10 @@ if(CMAKE_BUILD_TYPE STREQUAL Release)
     )
 
   elseif(CMAKE_SYSTEM_NAME STREQUAL Windows)
+    #
+    get_cqtdeployer(VERSION 1.6.2345 SYSTEMS Linux Windows)
+    file(GLOB_RECURSE QMAKE_EXECUTABLE ${QT_BINARY_DIR}/*/qmake6)
+
     # GUI executable instead of a console application
     set_target_properties(QtPlayground PROPERTIES WIN32_EXECUTABLE TRUE)
 

@@ -59,3 +59,4 @@ Also... it doesn't have a windows zip version
 https://stackoverflow.com/questions/21488072/what-is-the-use-of-various-qt-platform-plugins
 So... on Linux Qt can use various platforms. The default seems to be xcb
 So... xcb is trouble. When building with xcb on a system where it's installed, all is good. But Ubuntu 20.04 does not come with libxcb installed.
+The good news is though, simply copying libxcb-cursor seems to fix that issue...
