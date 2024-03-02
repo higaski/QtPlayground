@@ -24,11 +24,6 @@ sudo ./VBoxLinuxAdditions.run
 sudo usermod -aG vboxsf $USER
 ```
 
-Trust all folders no matter the ownership (DON'T do this on a real machine!)
-```sh
-git config --global --add safe.directory "*"
-```
-
 ## Install build requirements
 ```sh
 sudo apt install git
@@ -46,9 +41,12 @@ sudo apt update
 sudo apt install cmake
 ```
 
-OpenGL dependencies
+And then more... (XCB, OpenGL, ...)
+
+https://doc.qt.io/qt-6/linux-requirements.html
+https://forum.qt.io/topic/140822/qt-6-4-1-build-from-source-can-t-get-xcb-configured/10
 ```sh
-sudo apt-get install libdrm-dev libgles2-mesa-dev
+sudo apt install '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev
 ```
 
 ## CQtDeployer
