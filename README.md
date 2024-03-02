@@ -6,16 +6,8 @@ https://github.com/actions/runner-images
 Overview over glibc versions in different distros  
 https://repology.org/project/glibc/versions
 
-We need to build against an older version of glibc (e.g. 2.31 from Ubuntu 20.04 LTS).  
-Ubuntu 18.04 ain't an option, it does only support GCC7.
-
-Project maintaining a docker image for builds (maybe too old, it claims C++14, Qt6 needs C++17)  
-https://github.com/phusion/holy-build-box
-
-Ubuntu seems to have a mingw-w64 toolchain as well  
-https://packages.ubuntu.com/search?keywords=mingw-w64
-
-## Install guest additions on Ubuntu
+## Common prerequisites
+We need guest additions on Ubuntu to mount shared folders
 ```sh
 sudo apt update
 sudo apt upgrade
@@ -24,14 +16,13 @@ sudo ./VBoxLinuxAdditions.run
 sudo usermod -aG vboxsf $USER
 ```
 
-## Install build requirements
+Some build tools
 ```sh
 sudo apt install git
 sudo apt install ninja-build
 ```
 
-And a newer version of CMake...
-
+And a newer version of CMake...  
 https://askubuntu.com/questions/355565/how-do-i-install-the-latest-version-of-cmake-from-the-command-line  
 ```sh
 wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null
@@ -41,8 +32,11 @@ sudo apt update
 sudo apt install cmake
 ```
 
-And then more... (XCB, OpenGL, ...)
+# Linux
+For Linux we need to build against an older version of glibc (e.g. 2.31 from Ubuntu 20.04 LTS).  
+Ubuntu 18.04 ain't an option, it does only support GCC7.
 
+Install a bunch of dependencies for XCB and OpenGL  
 https://doc.qt.io/qt-6/linux-requirements.html
 https://forum.qt.io/topic/140822/qt-6-4-1-build-from-source-can-t-get-xcb-configured/10
 ```sh
@@ -61,7 +55,10 @@ So... on Linux Qt can use various platforms. The default seems to be xcb
 So... xcb is trouble. When building with xcb on a system where it's installed, all is good. But Ubuntu 20.04 does not come with libxcb installed.
 The good news is though, simply copying libxcb-cursor seems to fix that issue...
 
-## MinGW
+# Windows
+For Windows we will use Ubuntu 22.04 because 20.04 does not have a qt6 package for our host.
+
+Get host installation of Qt6 and MinGW
 ```sh
-sudo apt install mingw-w64
+sudo apt install qt6-base-dev mingw-w64
 ```

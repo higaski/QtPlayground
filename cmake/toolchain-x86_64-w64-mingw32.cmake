@@ -15,6 +15,10 @@ set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
 
+set(QT_HOST_PATH
+    "/usr"
+    CACHE PATH "host path for Qt")
+
 # set the resource compiler (RHBZ #652435)
 set(CMAKE_RC_COMPILER x86_64-w64-mingw32-windres)
 set(CMAKE_MC_COMPILER x86_64-w64-mingw32-windmc)
