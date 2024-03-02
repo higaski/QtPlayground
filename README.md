@@ -50,3 +50,9 @@ OpenGL dependencies
 ```sh
 sudo apt-get install libdrm-dev libgles2-mesa-dev
 ```
+
+## CQtDeployer
+First version which requires GLIBC_2.34 is v1.6.2181  
+Versions before that follow a different naming scheme though...
+The previous version (v1.5.4.17) has a .zip filed called CQtDeployer_1.5.4.17_Linux_x86_64.zip
+Also... it doesn't have a windows zip version

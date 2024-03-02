@@ -50,7 +50,7 @@ if(CMAKE_BUILD_TYPE STREQUAL Release)
     -DFEATURE_glib=OFF # -glib
     -DFEATURE_system_pcre2=OFF # -pcre
     -DFEATURE_system_zlib=OFF # -zlib
-    -DFEATURE_system_freetype=OFF # -freetype
+    -DFEATURE_fontconfig=ON # -fontconfig
     -DFEATURE_system_harfbuzz=OFF # -harfbuzz
     -DINPUT_opengl=no # -no-opengl
     -DFEATURE_libpng=ON # -libpng
@@ -61,6 +61,8 @@ if(CMAKE_BUILD_TYPE STREQUAL Release)
     -DINPUT_libjpeg=no # Workaround, DFEATURE_libjpeg not working
   )
 endif()
+
+# fontconfig and system_freetype are mutually exclusive!
 
 find_qt(REQUIRED COMPONENTS Core Widgets)
 
@@ -75,7 +77,7 @@ if(CMAKE_BUILD_TYPE STREQUAL Release)
                  ${CMAKE_BINARY_DIR}/config.xml)
 
   #
-  get_cqtdeployer(VERSION 1.6.2345 SYSTEMS Linux Windows)
+  get_cqtdeployer(VERSION 1.5.4.17 SYSTEMS Linux)
   file(GLOB_RECURSE QMAKE_EXECUTABLE ${QT_BINARY_DIR}/*/qmake6)
 
   if(CMAKE_SYSTEM_NAME STREQUAL Linux)
