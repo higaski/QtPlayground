@@ -96,7 +96,18 @@ if(CMAKE_BUILD_TYPE STREQUAL Release)
                  ${CMAKE_BINARY_DIR}/config.xml)
 
   if(CMAKE_SYSTEM_NAME STREQUAL Linux)
-    #
+    # Qt6 does not ship with fonts and we have built without fontconfig
+    cpmaddpackage(
+      NAME
+      dejavu-fonts
+      URL
+      https://github.com/dejavu-fonts/dejavu-fonts/releases/download/version_2_37/dejavu-fonts-ttf-2.37.zip
+      VERSION
+      ${ARG_VERSION}
+      DOWNLOAD_ONLY
+      TRUE)
+
+    # Get an old version of CQtDeployer compatible with GLIB 2.31
     get_cqtdeployer(VERSION 1.5.4.17 SYSTEMS Linux)
     file(GLOB_RECURSE QMAKE_EXECUTABLE ${QT_BINARY_DIR}/*/qmake6)
 
@@ -118,13 +129,18 @@ if(CMAKE_BUILD_TYPE STREQUAL Release)
       TARGET QtPlayground
       POST_BUILD
       COMMAND
+        ${CMAKE_COMMAND} -E copy
+        ${dejavu-fonts_SOURCE_DIR}/ttf/DejaVuSansMono.ttf
+        ${CMAKE_BINARY_DIR}/deploy/lib/fonts/DejaVuSansMono.ttf
+      COMMAND
         ${CQTDEPLOYER_EXECUTABLE} #
-        force-clear #
+        clear #
         noTranslations #
         # qif #
         -bin $<TARGET_FILE:QtPlayground> #
         -qmake ${QMAKE_EXECUTABLE} #
         -libDir ${LIB_DIR} #
+        -extraLibs xcb-cursor #
         -extraPlugin ${EXTRA_PLUGIN} #
         -recursiveDepth 2 #
         -targetDir ${CMAKE_BINARY_DIR}/deploy #
