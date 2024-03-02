@@ -80,7 +80,7 @@ if(CMAKE_BUILD_TYPE STREQUAL Release)
   elseif(CMAKE_SYSTEM_NAME STREQUAL Windows)
     get_qt(
       VERSION
-      6.6.1
+      6.2.4
       MODULES
       qtbase
       CMAKE_OPTIONS

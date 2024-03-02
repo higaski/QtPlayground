@@ -62,3 +62,26 @@ Get host installation of Qt6 and MinGW
 ```sh
 sudo apt install qt6-base-dev mingw-w64
 ```
+
+And as I just found out the cross-compiled version can't be any newer than the HOST one!
+
+Not sure if I need CMAKE_PREFIX_PATH or CMAKE_SYSROOT?
+Currently CMake complains that it finds , but still sets the _FOUND variables to false
+```sh
+CMake Warning at build/_deps/qt6-build/lib/cmake/Qt6/Qt6Config.cmake:209 (find_package):
+  Found package configuration file:
+
+    /home/vinci/Downloads/QtPlayground/build/_deps/qt6-build/lib/cmake/Qt6Core/Qt6CoreConfig.cmake
+
+  but it set Qt6Core_FOUND to FALSE so package "Qt6Core" is considered to be
+  NOT FOUND.  Reason given by package:
+
+  Target "Qt6::Core" was not found.
+
+Call Stack (most recent call first):
+  build/CMakeModules/cmake/find_qt.cmake:31 (find_package)
+  CMakeLists.txt:109 (find_qt)
+
+```
+
+Ubuntu 22.04 mingw64 does not contain zlib and friends? The "3rdparty" folder inside qtbase contains it's source though? Why not build it from there?
