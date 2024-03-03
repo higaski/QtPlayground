@@ -85,3 +85,17 @@ Call Stack (most recent call first):
 ```
 
 Ubuntu 22.04 mingw64 does not contain zlib and friends? The "3rdparty" folder inside qtbase contains it's source though? Why not build it from there?
+
+Cmake finds cross compiled Qt6 config files but Qt6_FOUND is set to FALSE
+https://forum.qt.io/topic/137551/cmake-finds-cross-compiled-qt6-config-files-but-qt6_found-is-set-to-false/6
+
+Installed Qt6 to Linux ... cmake ... Target "Qt6::Core" was not found
+https://forum.qt.io/topic/134586/installed-qt6-to-linux-cmake-target-qt6-core-was-not-found/6
+
+CMake cannot find packages when only Qt6_DIR and not CMAKE_PREFIX_PATH is set
+https://bugreports.qt.io/browse/QTBUG-97615
+
+Improve find_package(Qt6) diagnostics
+https://bugreports.qt.io/browse/QTBUG-104998?focusedCommentId=672482&page=com.atlassian.jira.plugin.system.issuetabpanels%3Acomment-tabpanel#comment-672482
+
+Looks like CMAKE_PREFIX_PATH must point to the Qt6 installation as well? (not the host)
