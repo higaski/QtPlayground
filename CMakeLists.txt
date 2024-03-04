@@ -29,30 +29,52 @@ add_executable(QtPlayground ${SRC})
 # Qt6 requires C++17
 target_compile_features(QtPlayground PUBLIC cxx_std_17)
 
+if(CMAKE_TOOLCHAIN_FILE)
+  set(QT_TOOLCHAIN_FILE_OPTION -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE})
+else()
+  set(QT_TOOLCHAIN_FILE_OPTION)
+endif()
+
 get_qt(
   VERSION
   6.2.4
   MODULES
   qtbase
   CMAKE_OPTIONS
-  -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+  ${QT_TOOLCHAIN_FILE_OPTION}
   -DCMAKE_BUILD_TYPE=Release # -release
   -DINPUT_optimize_size=ON # -optimize-size
   -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS} #
   -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=${DCMAKE_INTERPROCEDURAL_OPTIMIZATION} # -ltcg
-  -DFEATURE_dbus=OFF # -no-dbus
-  -DFEATURE_system_doubleconversion=OFF # -doubleconversion
-  -DFEATURE_glib=OFF # -glib
-  -DFEATURE_system_pcre2=OFF # -pcre
-  -DFEATURE_system_zlib=OFF # -zlib
-  -DFEATURE_system_freetype=OFF # -freetype
-  -DFEATURE_system_harfbuzz=OFF # -harfbuzz
-  -DFEATURE_libpng=ON # -libpng
-  -DFEATURE_libjpeg=OFF # -libjpeg
-  -DFEATURE_sql=OFF #
+  -DFEATURE_accessibility=OFF
+  -DFEATURE_dbus=OFF
+  -DFEATURE_cssparser=OFF
+  -DFEATURE_glib=OFF
+  -DFEATURE_fontconfig=OFF
+  -DFEATURE_harfbuzz=OFF
+  -DFEATURE_ico=OFF
+  -DFEATURE_libjpeg=OFF
+  -DFEATURE_libpng=ON
+  -DFEATURE_sql=OFF
+  -DFEATURE_system_doubleconversion=OFF
+  -DFEATURE_system_harfbuzz=OFF
+  -DFEATURE_system_pcre2=OFF
+  -DFEATURE_system_zlib=OFF
+  -DFEATURE_testlib=OFF
+  -DFEATURE_texthtmlparser=OFF
+  -DFEATURE_textmarkdownreader=OFF
+  -DFEATURE_textmarkdownwriter=OFF
+  -DFEATURE_textodfwriter=OFF
+  -DFEATURE_vulkan=OFF
+  # -DFEATURE_xml=OFF Not working on 6.2.4?
   #
-  -DFEATURE_zstd=OFF #
-  -DINPUT_libjpeg=no # Workaround, DFEATURE_libjpeg not working
-)
+  # Enable freetype to get some sort of font support
+  -DFEATURE_freetype=ON
+  -DFEATURE_system_freetype=OFF
+  # Enable OpenGL
+  -DFEATURE_opengl=ON
+  #
+  -DINPUT_libjpeg=no
+  -DINPUT_libmd4c=no)
 
 find_qt(REQUIRED COMPONENTS Core Widgets)

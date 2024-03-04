@@ -43,6 +43,9 @@ https://forum.qt.io/topic/140822/qt-6-4-1-build-from-source-can-t-get-xcb-config
 sudo apt install '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev
 ```
 
+https://bugreports.qt.io/browse/QTBUG-117950  
+The current version on Ubuntu 22.04 (6.2.4) fails to build with libxkbcommon-1.6.0 but works with 1.5.0
+
 ## CQtDeployer
 First version which requires GLIBC_2.34 is v1.6.2181  
 Versions before that follow a different naming scheme though...
