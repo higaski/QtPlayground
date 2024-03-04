@@ -191,24 +191,22 @@ if(CMAKE_BUILD_TYPE STREQUAL Release)
 
   elseif(CMAKE_SYSTEM_NAME STREQUAL Windows)
     #
-    get_cqtdeployer(VERSION 1.6.2345 SYSTEMS Linux Windows)
-    file(GLOB_RECURSE QMAKE_EXECUTABLE ${QT_BINARY_DIR}/*/qmake6)
+    get_cqtdeployer(VERSION 1.6.2345 SYSTEMS Linux)
+    file(GLOB_RECURSE QMAKE_EXECUTABLE ${QT_BINARY_DIR}/*/qmake)
 
     # GUI executable instead of a console application
     set_target_properties(QtPlayground PROPERTIES WIN32_EXECUTABLE TRUE)
 
     # For Windows we need Qt and system libs, so use CMAKE_FIND_ROOT_PATH
     list(JOIN CMAKE_FIND_ROOT_PATH "," LIB_DIR)
-    find_program(WINE_EXECUTABLE wine REQUIRED)
 
     add_custom_command(
       TARGET QtPlayground
       POST_BUILD
       COMMAND
         ${CQTDEPLOYER_EXECUTABLE} #
-        force-clear #
+        clear #
         noTranslations #
-        qif #
         -bin $<TARGET_FILE:QtPlayground> #
         -qmake ${QMAKE_EXECUTABLE} #
         -libDir ${LIB_DIR} #
@@ -216,8 +214,6 @@ if(CMAKE_BUILD_TYPE STREQUAL Release)
         -targetDir ${CMAKE_BINARY_DIR}/deploy #
         -verbose 3 #
         -platform win_x86_64 #
-        -qifOut QtPlayground-${PROJECT_VERSION}-x86_64 #
-        -qifConfig ${CMAKE_BINARY_DIR}/config.xml #
-        -binarycreator "${WINE_EXECUTABLE} ${BINARYCREATOR_WINDOWS_EXECUTABLE}")
+    )
   endif()
 endif()
