@@ -29,52 +29,95 @@ add_executable(QtPlayground ${SRC})
 # Qt6 requires C++17
 target_compile_features(QtPlayground PUBLIC cxx_std_17)
 
-if(CMAKE_TOOLCHAIN_FILE)
-  set(QT_TOOLCHAIN_FILE_OPTION -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE})
-else()
-  set(QT_TOOLCHAIN_FILE_OPTION)
+if(CMAKE_SYSTEM_NAME STREQUAL Linux)
+  get_qt(
+    VERSION
+    6.6.1
+    MODULES
+    qtbase
+    CMAKE_OPTIONS
+    -DCMAKE_BUILD_TYPE=Release
+    -DINPUT_optimize_size=ON
+    -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
+    -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=${DCMAKE_INTERPROCEDURAL_OPTIMIZATION}
+    # Disable features that are not needed
+    -DFEATURE_accessibility=OFF
+    -DFEATURE_dbus=OFF
+    -DFEATURE_cssparser=OFF
+    -DFEATURE_glib=OFF
+    -DFEATURE_fontconfig=OFF
+    -DFEATURE_harfbuzz=OFF
+    -DFEATURE_ico=OFF
+    -DFEATURE_libjpeg=OFF
+    -DFEATURE_libpng=OFF
+    -DFEATURE_opengl=OFF
+    -DFEATURE_sql=OFF
+    -DFEATURE_system_doubleconversion=OFF
+    -DFEATURE_system_harfbuzz=OFF
+    -DFEATURE_system_pcre2=OFF
+    -DFEATURE_system_zlib=OFF
+    -DFEATURE_testlib=OFF
+    -DFEATURE_texthtmlparser=OFF
+    -DFEATURE_textmarkdownreader=OFF
+    -DFEATURE_textmarkdownwriter=OFF
+    -DFEATURE_textodfwriter=OFF
+    -DFEATURE_vulkan=OFF
+    -DFEATURE_xml=OFF
+    # Enable freetype to get some sort of font support
+    -DFEATURE_freetype=ON
+    -DFEATURE_system_freetype=OFF
+    # Default to xcb and disable all other platform plugins
+    -DQT_QPA_DEFAULT_PLATFORM=xcb
+    -DFEATURE_linuxfb=OFF
+    -DFEATURE_vkkhrdisplay=OFF
+    -DFEATURE_vnc=OFF
+    -DFEATURE_zstd=OFF
+    # No FEATURE flags yet
+    -DINPUT_libjpeg=no
+    -DINPUT_libmd4c=no)
+elseif(CMAKE_SYSTEM_NAME STREQUAL Windows)
+  get_qt(
+    VERSION
+    6.2.4
+    MODULES
+    qtbase
+    CMAKE_OPTIONS
+    -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+    -DCMAKE_BUILD_TYPE=Release # -release
+    -DINPUT_optimize_size=ON # -optimize-size
+    -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS} #
+    -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=${DCMAKE_INTERPROCEDURAL_OPTIMIZATION} # -ltcg
+    -DFEATURE_accessibility=OFF
+    -DFEATURE_dbus=OFF
+    -DFEATURE_cssparser=OFF
+    -DFEATURE_glib=OFF
+    -DFEATURE_fontconfig=OFF
+    -DFEATURE_harfbuzz=OFF
+    -DFEATURE_ico=OFF
+    -DFEATURE_libjpeg=OFF
+    -DFEATURE_libpng=OFF
+    -DFEATURE_opengl=OFF
+    -DFEATURE_sql=OFF
+    -DFEATURE_system_doubleconversion=OFF
+    -DFEATURE_system_harfbuzz=OFF
+    -DFEATURE_system_pcre2=OFF
+    -DFEATURE_system_zlib=OFF
+    -DFEATURE_testlib=OFF
+    -DFEATURE_texthtmlparser=OFF
+    -DFEATURE_textmarkdownreader=OFF
+    -DFEATURE_textmarkdownwriter=OFF
+    -DFEATURE_textodfwriter=OFF
+    -DFEATURE_vulkan=OFF
+    # -DFEATURE_xml=OFF Not working on 6.2.4?
+    #
+    # Enable freetype to get some sort of font support
+    -DFEATURE_freetype=ON
+    -DFEATURE_system_freetype=OFF
+    # No FEATURE flags yet
+    -DINPUT_libjpeg=no
+    -DINPUT_libmd4c=no)
 endif()
 
-get_qt(
-  VERSION
-  6.2.4
-  MODULES
-  qtbase
-  CMAKE_OPTIONS
-  ${QT_TOOLCHAIN_FILE_OPTION}
-  -DCMAKE_BUILD_TYPE=Release # -release
-  -DINPUT_optimize_size=ON # -optimize-size
-  -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS} #
-  -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=${DCMAKE_INTERPROCEDURAL_OPTIMIZATION} # -ltcg
-  -DFEATURE_accessibility=OFF
-  -DFEATURE_dbus=OFF
-  -DFEATURE_cssparser=OFF
-  -DFEATURE_glib=OFF
-  -DFEATURE_fontconfig=OFF
-  -DFEATURE_harfbuzz=OFF
-  -DFEATURE_ico=OFF
-  -DFEATURE_libjpeg=OFF
-  -DFEATURE_libpng=ON
-  -DFEATURE_sql=OFF
-  -DFEATURE_system_doubleconversion=OFF
-  -DFEATURE_system_harfbuzz=OFF
-  -DFEATURE_system_pcre2=OFF
-  -DFEATURE_system_zlib=OFF
-  -DFEATURE_testlib=OFF
-  -DFEATURE_texthtmlparser=OFF
-  -DFEATURE_textmarkdownreader=OFF
-  -DFEATURE_textmarkdownwriter=OFF
-  -DFEATURE_textodfwriter=OFF
-  -DFEATURE_vulkan=OFF
-  # -DFEATURE_xml=OFF Not working on 6.2.4?
-  #
-  # Enable freetype to get some sort of font support
-  -DFEATURE_freetype=ON
-  -DFEATURE_system_freetype=OFF
-  # Enable OpenGL
-  -DFEATURE_opengl=ON
-  #
-  -DINPUT_libjpeg=no
-  -DINPUT_libmd4c=no)
-
 find_qt(REQUIRED COMPONENTS Core Widgets)
+
+target_link_libraries(QtPlayground PRIVATE Qt::Core Qt::Widgets)
