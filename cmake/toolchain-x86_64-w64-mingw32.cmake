@@ -5,8 +5,6 @@ set(CMAKE_SYSTEM_PROCESSOR x86_64)
 set(CMAKE_C_COMPILER x86_64-w64-mingw32-gcc)
 set(CMAKE_CXX_COMPILER x86_64-w64-mingw32-g++)
 
-# thats most likely not necessary set(CMAKE_PREFIX_PATH /usr/x86_64-w64-mingw32)
-
 # that might be a good idea?
 set(CMAKE_SYSROOT /usr/x86_64-w64-mingw32)
 
