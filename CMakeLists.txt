@@ -46,14 +46,19 @@ if(CMAKE_SYSTEM_NAME STREQUAL Linux)
     -DFEATURE_cssparser=OFF
     -DFEATURE_glib=OFF
     -DFEATURE_fontconfig=OFF
+    -DFEATURE_gif=OFF
     -DFEATURE_harfbuzz=OFF
     -DFEATURE_ico=OFF
     -DFEATURE_libjpeg=OFF
     -DFEATURE_libpng=OFF
     -DFEATURE_opengl=OFF
+    -DFEATURE_png=OFF
+    -DFEATURE_printsupport=OFF
     -DFEATURE_sql=OFF
     -DFEATURE_system_doubleconversion=OFF
+    -DFEATURE_system_freetype=OFF
     -DFEATURE_system_harfbuzz=OFF
+    -DFEATURE_system_libb2=OFF
     -DFEATURE_system_pcre2=OFF
     -DFEATURE_system_zlib=OFF
     -DFEATURE_testlib=OFF
@@ -65,7 +70,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL Linux)
     -DFEATURE_xml=OFF
     # Enable freetype to get some sort of font support
     -DFEATURE_freetype=ON
-    -DFEATURE_system_freetype=OFF
     # Default to xcb and disable all other platform plugins
     -DQT_QPA_DEFAULT_PLATFORM=xcb
     -DFEATURE_linuxfb=OFF
@@ -78,28 +82,32 @@ if(CMAKE_SYSTEM_NAME STREQUAL Linux)
 elseif(CMAKE_SYSTEM_NAME STREQUAL Windows)
   get_qt(
     VERSION
-    6.2.4
+    6.2.4 # Latest version on Ubuntu 22.04
     MODULES
     qtbase
     CMAKE_OPTIONS
     -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
-    -DCMAKE_BUILD_TYPE=Release # -release
-    -DINPUT_optimize_size=ON # -optimize-size
-    -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS} #
-    -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=${DCMAKE_INTERPROCEDURAL_OPTIMIZATION} # -ltcg
+    -DCMAKE_BUILD_TYPE=Release
+    -DINPUT_optimize_size=ON
+    -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
+    -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=${DCMAKE_INTERPROCEDURAL_OPTIMIZATION}
     -DFEATURE_accessibility=OFF
     -DFEATURE_dbus=OFF
     -DFEATURE_cssparser=OFF
     -DFEATURE_glib=OFF
     -DFEATURE_fontconfig=OFF
+    -DFEATURE_gif=OFF
     -DFEATURE_harfbuzz=OFF
     -DFEATURE_ico=OFF
     -DFEATURE_libjpeg=OFF
     -DFEATURE_libpng=OFF
-    -DFEATURE_opengl=OFF
+    -DFEATURE_png=OFF
+    -DFEATURE_printsupport=OFF
     -DFEATURE_sql=OFF
     -DFEATURE_system_doubleconversion=OFF
+    -DFEATURE_system_freetype=OFF
     -DFEATURE_system_harfbuzz=OFF
+    -DFEATURE_system_libb2=OFF
     -DFEATURE_system_pcre2=OFF
     -DFEATURE_system_zlib=OFF
     -DFEATURE_testlib=OFF
@@ -108,11 +116,9 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL Windows)
     -DFEATURE_textmarkdownwriter=OFF
     -DFEATURE_textodfwriter=OFF
     -DFEATURE_vulkan=OFF
-    # -DFEATURE_xml=OFF Not working on 6.2.4?
-    #
+    -DFEATURE_xml=OFF
     # Enable freetype to get some sort of font support
     -DFEATURE_freetype=ON
-    -DFEATURE_system_freetype=OFF
     # No FEATURE flags yet
     -DINPUT_libjpeg=no
     -DINPUT_libmd4c=no)
