@@ -198,7 +198,7 @@ if(CMAKE_BUILD_TYPE STREQUAL Release)
     file(GLOB_RECURSE QMAKE_EXECUTABLE ${QT_BINARY_DIR}/*/qmake)
 
     # GUI executable instead of a console application
-    set_target_properties(QtPlayground PROPERTIES WIN32_EXECUTABLE TRUE)
+    # set_target_properties(QtPlayground PROPERTIES WIN32_EXECUTABLE TRUE)
 
     # For Windows we need Qt and system libs, so use CMAKE_FIND_ROOT_PATH
     list(JOIN CMAKE_FIND_ROOT_PATH "," LIB_DIR)
