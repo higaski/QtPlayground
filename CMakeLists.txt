@@ -32,7 +32,7 @@ target_compile_features(QtPlayground PUBLIC cxx_std_17)
 if(CMAKE_SYSTEM_NAME STREQUAL Linux AND CMAKE_BUILD_TYPE STREQUAL Release)
   get_qt(
     VERSION
-    6.6.1
+    6.2.4
     MODULES
     qtbase
     CMAKE_OPTIONS
@@ -47,7 +47,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL Linux AND CMAKE_BUILD_TYPE STREQUAL Release)
     -DFEATURE_glib=OFF
     -DFEATURE_fontconfig=OFF
     -DFEATURE_gif=OFF
-    -DFEATURE_harfbuzz=OFF
     -DFEATURE_ico=OFF
     -DFEATURE_libjpeg=OFF
     -DFEATURE_libpng=OFF
@@ -67,9 +66,9 @@ if(CMAKE_SYSTEM_NAME STREQUAL Linux AND CMAKE_BUILD_TYPE STREQUAL Release)
     -DFEATURE_textmarkdownwriter=OFF
     -DFEATURE_textodfwriter=OFF
     -DFEATURE_vulkan=OFF
-    -DFEATURE_xml=OFF
-    # Enable freetype to get some sort of font support
+    # Enable freetype and harfbuzz to get some sort of font support
     -DFEATURE_freetype=ON
+    -DFEATURE_harfbuzz=ON
     # Default to xcb and disable all other platform plugins
     -DQT_QPA_DEFAULT_PLATFORM=xcb
     -DFEATURE_linuxfb=OFF
@@ -91,13 +90,13 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL Windows)
     -DINPUT_optimize_size=ON
     -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
     -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=${DCMAKE_INTERPROCEDURAL_OPTIMIZATION}
+    # Disable features that are not needed
     -DFEATURE_accessibility=OFF
     -DFEATURE_dbus=OFF
     -DFEATURE_cssparser=OFF
     -DFEATURE_glib=OFF
     -DFEATURE_fontconfig=OFF
     -DFEATURE_gif=OFF
-    -DFEATURE_harfbuzz=OFF
     -DFEATURE_ico=OFF
     -DFEATURE_libjpeg=OFF
     -DFEATURE_libpng=OFF
@@ -117,8 +116,9 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL Windows)
     -DFEATURE_textodfwriter=OFF
     -DFEATURE_vulkan=OFF
     -DFEATURE_xml=OFF
-    # Enable freetype to get some sort of font support
+    # Enable freetype and harfbuzz to get some sort of font support
     -DFEATURE_freetype=ON
+    -DFEATURE_harfbuzz=ON
     # No FEATURE flags yet
     -DINPUT_libjpeg=no
     -DINPUT_libmd4c=no)
@@ -198,7 +198,7 @@ if(CMAKE_BUILD_TYPE STREQUAL Release)
     file(GLOB_RECURSE QMAKE_EXECUTABLE ${QT_BINARY_DIR}/*/qmake)
 
     # GUI executable instead of a console application
-    # set_target_properties(QtPlayground PROPERTIES WIN32_EXECUTABLE TRUE)
+    set_target_properties(QtPlayground PROPERTIES WIN32_EXECUTABLE TRUE)
 
     # For Windows we need Qt and system libs, so use CMAKE_FIND_ROOT_PATH
     list(JOIN CMAKE_FIND_ROOT_PATH "," LIB_DIR)
