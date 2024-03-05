@@ -210,6 +210,7 @@ if(CMAKE_BUILD_TYPE STREQUAL Release)
         ${CQTDEPLOYER_EXECUTABLE} #
         clear #
         noTranslations #
+        deploySystem #
         -bin $<TARGET_FILE:QtPlayground> #
         -qmake ${QMAKE_EXECUTABLE} #
         -libDir ${LIB_DIR} #
