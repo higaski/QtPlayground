@@ -72,6 +72,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL Linux AND CMAKE_BUILD_TYPE STREQUAL Release)
     # Default to xcb and disable all other platform plugins
     -DQT_QPA_DEFAULT_PLATFORM=xcb
     -DFEATURE_linuxfb=OFF
+    -DFEATURE_system_xcb_xinput=OFF
     -DFEATURE_vkkhrdisplay=OFF
     -DFEATURE_vnc=OFF
     -DFEATURE_zstd=OFF
