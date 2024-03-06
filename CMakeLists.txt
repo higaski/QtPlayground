@@ -4,7 +4,7 @@ include(FetchContent)
 FetchContent_Declare(
   CMakeModules
   GIT_REPOSITORY https://github.com/ZIMO-Elektronik/CMakeModules
-  GIT_TAG get_qt
+  GIT_TAG qt
   SOURCE_DIR ${CMAKE_BINARY_DIR}/CMakeModules)
 FetchContent_MakeAvailable(CMakeModules)
 
@@ -30,7 +30,7 @@ add_executable(QtPlayground ${SRC})
 target_compile_features(QtPlayground PUBLIC cxx_std_17)
 
 if(CMAKE_SYSTEM_NAME STREQUAL Linux AND CMAKE_BUILD_TYPE STREQUAL Release)
-  get_qt(
+  build_qt(
     VERSION
     6.2.4
     MODULES
@@ -80,7 +80,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL Linux AND CMAKE_BUILD_TYPE STREQUAL Release)
     -DINPUT_libjpeg=no
     -DINPUT_libmd4c=no)
 elseif(CMAKE_SYSTEM_NAME STREQUAL Windows)
-  get_qt(
+  build_qt(
     VERSION
     6.2.4 # Latest version on Ubuntu 22.04
     MODULES
@@ -158,7 +158,7 @@ if(CMAKE_BUILD_TYPE STREQUAL Release)
 
   if(CMAKE_SYSTEM_NAME STREQUAL Linux)
     # Get an old version of CQtDeployer compatible with GLIB 2.31
-    get_cqtdeployer(VERSION 1.5.4.17 SYSTEMS Linux)
+    find_package(CQtDeployer 1.5.4.17 COMPONENTS Linux)
     file(GLOB_RECURSE QMAKE_EXECUTABLE ${QT_BINARY_DIR}/*/qmake6)
 
     # Qt libs path
@@ -195,7 +195,7 @@ if(CMAKE_BUILD_TYPE STREQUAL Release)
 
   elseif(CMAKE_SYSTEM_NAME STREQUAL Windows)
     #
-    get_cqtdeployer(VERSION 1.6.2323 SYSTEMS Linux)
+    find_package(CQtDeployer 1.6.2323 COMPONENTS Linux)
     file(GLOB_RECURSE QMAKE_EXECUTABLE ${QT_BINARY_DIR}/*/qmake)
 
     # GUI executable instead of a console application
