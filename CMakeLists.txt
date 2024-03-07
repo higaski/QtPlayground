@@ -80,8 +80,15 @@ if(CMAKE_SYSTEM_NAME STREQUAL Linux AND CMAKE_BUILD_TYPE STREQUAL Release)
     -DINPUT_libjpeg=no
     -DINPUT_libmd4c=no)
 elseif(CMAKE_SYSTEM_NAME STREQUAL Windows)
-  find_program(aqt REQUIRED)
-  message(FATAL_ERROR "\n\n aqt ${aqt}")
+  find_package(Python3 REQUIRED COMPONENTS Interpreter)
+  execute_process(
+    COMMAND
+      ${Python3_EXECUTABLE} -m aqt install-qt #
+      --outputdir ${CMAKE_BINARY_DIR}/qt_host #
+      linux desktop 6.6.1 gcc_64 #
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR} #
+                      COMMAND_ERROR_IS_FATAL ANY)
+  # set(QT_HOST_PATH)
 
   build_qt(
     VERSION
