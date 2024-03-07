@@ -61,11 +61,11 @@ The good news is though, simply copying libxcb-cursor seems to fix that issue...
 # Windows
 For Windows we will use Ubuntu 22.04 because 20.04 does not have a qt6 package for our host.
 
-Get host installation of Qt6 and MinGW
+Get mingw-w64 and aqtinstall to install newer versions of Qt on host (latest on Ubuntu-22.04 is 6.2.4)
 ```sh
-sudo apt install qt6-base-dev mingw-w64
+sudo apt install mingw-w64
+sudo apt install pip
+sudo pip install aqtinstall
 ```
-
-And as I just found out the cross-compiled version can't be any newer than the HOST one!
 
 Ubuntu 22.04 mingw64 does not contain zlib and friends? The "3rdparty" folder inside qtbase contains it's source though? Why not build it from there?

@@ -14,10 +14,10 @@
       "command": "cmake -Bbuild -GNinja -DCMAKE_BUILD_TYPE=Release"
     },
     {
-      "label": "cmake QtPlayground x86_64-w64-mingw32",
+      "label": "cmake QtPlayground Release x86_64-w64-mingw32",
       "type": "shell",
       "isBackground": true,
-      "command": "cmake -Bbuild -GNinja -DCMAKE_TOOLCHAIN_FILE=CMakeModules/cmake/toolchain-x86_64-w64-mingw32.cmake -DQT_DEBUG_FIND_PACKAGE=ON"
+      "command": "cmake -Bbuild -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=CMakeModules/cmake/toolchain-x86_64-w64-mingw32.cmake"
     },
     {
       "label": "ninja QtPlayground",

@@ -14,6 +14,7 @@ project(
   VERSION ${VERSION_FROM_GIT}
   LANGUAGES C CXX)
 
+set(QT_VERSION 6.4.3)
 set(BUILD_SHARED_LIBS ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(DCMAKE_INTERPROCEDURAL_OPTIMIZATION OFF)
@@ -32,7 +33,7 @@ target_compile_features(QtPlayground PUBLIC cxx_std_17)
 if(CMAKE_SYSTEM_NAME STREQUAL Linux AND CMAKE_BUILD_TYPE STREQUAL Release)
   build_qt(
     VERSION
-    6.2.4
+    ${QT_VERSION}
     MODULES
     qtbase
     CMAKE_OPTIONS
@@ -66,6 +67,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL Linux AND CMAKE_BUILD_TYPE STREQUAL Release)
     -DFEATURE_textmarkdownwriter=OFF
     -DFEATURE_textodfwriter=OFF
     -DFEATURE_vulkan=OFF
+    -DFEATURE_xml=OFF
     # Enable freetype and harfbuzz to get some sort of font support
     -DFEATURE_freetype=ON
     -DFEATURE_harfbuzz=ON
@@ -85,17 +87,17 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL Windows)
     COMMAND
       ${Python3_EXECUTABLE} -m aqt install-qt #
       --outputdir ${CMAKE_BINARY_DIR}/qt6-host-build #
-      linux desktop 6.6.1 gcc_64 #
+      linux desktop ${QT_VERSION} gcc_64 #
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR} #
                       COMMAND_ERROR_IS_FATAL ANY)
 
   build_qt(
     VERSION
-    6.6.1
+    ${QT_VERSION}
     MODULES
     qtbase
     CMAKE_OPTIONS
-    -DQT_HOST_PATH=${CMAKE_BINARY_DIR}/qt6-host-build/6.6.1/gcc_64
+    -DQT_HOST_PATH=${CMAKE_BINARY_DIR}/qt6-host-build/${QT_VERSION}/gcc_64
     -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
     -DCMAKE_BUILD_TYPE=Release
     -DINPUT_optimize_size=ON
