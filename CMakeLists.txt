@@ -84,18 +84,18 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL Windows)
   execute_process(
     COMMAND
       ${Python3_EXECUTABLE} -m aqt install-qt #
-      --outputdir ${CMAKE_BINARY_DIR}/qt_host #
+      --outputdir ${CMAKE_BINARY_DIR}/qt6-host-build #
       linux desktop 6.6.1 gcc_64 #
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR} #
                       COMMAND_ERROR_IS_FATAL ANY)
-  # set(QT_HOST_PATH)
 
   build_qt(
     VERSION
-    6.2.4 # Latest version on Ubuntu 22.04
+    6.6.1
     MODULES
     qtbase
     CMAKE_OPTIONS
+    -DQT_HOST_PATH=${CMAKE_BINARY_DIR}/qt6-host-build/6.6.1/gcc_64
     -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
     -DCMAKE_BUILD_TYPE=Release
     -DINPUT_optimize_size=ON
