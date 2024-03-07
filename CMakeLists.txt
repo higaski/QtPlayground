@@ -80,6 +80,9 @@ if(CMAKE_SYSTEM_NAME STREQUAL Linux AND CMAKE_BUILD_TYPE STREQUAL Release)
     -DINPUT_libjpeg=no
     -DINPUT_libmd4c=no)
 elseif(CMAKE_SYSTEM_NAME STREQUAL Windows)
+  find_program(aqt REQUIRED)
+  message(FATAL_ERROR "\n\n aqt ${aqt}")
+
   build_qt(
     VERSION
     6.2.4 # Latest version on Ubuntu 22.04
