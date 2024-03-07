@@ -30,111 +30,112 @@ add_executable(QtPlayground ${SRC})
 # Qt6 requires C++17
 target_compile_features(QtPlayground PUBLIC cxx_std_17)
 
-if(CMAKE_SYSTEM_NAME STREQUAL Linux AND CMAKE_BUILD_TYPE STREQUAL Release)
-  build_qt(
-    VERSION
-    ${QT_VERSION}
-    MODULES
-    qtbase
-    CMAKE_OPTIONS
-    -DCMAKE_BUILD_TYPE=Release
-    -DINPUT_optimize_size=ON
-    -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
-    -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=${DCMAKE_INTERPROCEDURAL_OPTIMIZATION}
-    # Disable features that are not needed
-    -DFEATURE_accessibility=OFF
-    -DFEATURE_dbus=OFF
-    -DFEATURE_cssparser=OFF
-    -DFEATURE_glib=OFF
-    -DFEATURE_fontconfig=OFF
-    -DFEATURE_gif=OFF
-    -DFEATURE_ico=OFF
-    -DFEATURE_libjpeg=OFF
-    -DFEATURE_libpng=OFF
-    -DFEATURE_opengl=OFF
-    -DFEATURE_png=OFF
-    -DFEATURE_printsupport=OFF
-    -DFEATURE_sql=OFF
-    -DFEATURE_system_doubleconversion=OFF
-    -DFEATURE_system_freetype=OFF
-    -DFEATURE_system_harfbuzz=OFF
-    -DFEATURE_system_libb2=OFF
-    -DFEATURE_system_pcre2=OFF
-    -DFEATURE_system_zlib=OFF
-    -DFEATURE_testlib=OFF
-    -DFEATURE_texthtmlparser=OFF
-    -DFEATURE_textmarkdownreader=OFF
-    -DFEATURE_textmarkdownwriter=OFF
-    -DFEATURE_textodfwriter=OFF
-    -DFEATURE_vulkan=OFF
-    -DFEATURE_xml=OFF
-    # Enable freetype and harfbuzz to get some sort of font support
-    -DFEATURE_freetype=ON
-    -DFEATURE_harfbuzz=ON
-    # Default to xcb and disable all other platform plugins
-    -DQT_QPA_DEFAULT_PLATFORM=xcb
-    -DFEATURE_linuxfb=OFF
-    -DFEATURE_system_xcb_xinput=OFF
-    -DFEATURE_vkkhrdisplay=OFF
-    -DFEATURE_vnc=OFF
-    -DFEATURE_zstd=OFF
-    # No FEATURE flags yet
-    -DINPUT_libjpeg=no
-    -DINPUT_libmd4c=no)
-elseif(CMAKE_SYSTEM_NAME STREQUAL Windows)
-  find_package(Python3 REQUIRED COMPONENTS Interpreter)
-  execute_process(
-    COMMAND
-      ${Python3_EXECUTABLE} -m aqt install-qt #
-      --outputdir ${CMAKE_BINARY_DIR}/qt6-host-build #
-      linux desktop ${QT_VERSION} gcc_64 #
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR} #
-                      COMMAND_ERROR_IS_FATAL ANY)
+if(CMAKE_BUILD_TYPE STREQUAL Release)
+  if(CMAKE_SYSTEM_NAME STREQUAL Linux)
+    build_qt(
+      VERSION
+      ${QT_VERSION}
+      MODULES
+      qtbase
+      CMAKE_OPTIONS
+      -DCMAKE_BUILD_TYPE=Release
+      -DINPUT_optimize_size=ON
+      -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
+      -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=${DCMAKE_INTERPROCEDURAL_OPTIMIZATION}
+      # Disable features that are not needed
+      -DFEATURE_accessibility=OFF
+      -DFEATURE_dbus=OFF
+      -DFEATURE_cssparser=OFF
+      -DFEATURE_glib=OFF
+      -DFEATURE_fontconfig=OFF
+      -DFEATURE_gif=OFF
+      -DFEATURE_ico=OFF
+      -DFEATURE_libjpeg=OFF
+      -DFEATURE_libpng=OFF
+      -DFEATURE_opengl=OFF
+      -DFEATURE_png=OFF
+      -DFEATURE_printsupport=OFF
+      -DFEATURE_sql=OFF
+      -DFEATURE_system_doubleconversion=OFF
+      -DFEATURE_system_freetype=OFF
+      -DFEATURE_system_harfbuzz=OFF
+      -DFEATURE_system_libb2=OFF
+      -DFEATURE_system_pcre2=OFF
+      -DFEATURE_system_zlib=OFF
+      -DFEATURE_testlib=OFF
+      -DFEATURE_texthtmlparser=OFF
+      -DFEATURE_textmarkdownreader=OFF
+      -DFEATURE_textmarkdownwriter=OFF
+      -DFEATURE_textodfwriter=OFF
+      -DFEATURE_vulkan=OFF
+      -DFEATURE_xml=OFF
+      # Enable freetype and harfbuzz to get some sort of font support
+      -DFEATURE_freetype=ON
+      -DFEATURE_harfbuzz=ON
+      # Default to xcb and disable all other platform plugins
+      -DQT_QPA_DEFAULT_PLATFORM=xcb
+      -DFEATURE_linuxfb=OFF
+      -DFEATURE_vkkhrdisplay=OFF
+      -DFEATURE_vnc=OFF
+      -DFEATURE_zstd=OFF
+      # No FEATURE flags yet
+      -DINPUT_libjpeg=no
+      -DINPUT_libmd4c=no)
+  elseif(CMAKE_SYSTEM_NAME STREQUAL Windows)
+    find_package(Python3 REQUIRED COMPONENTS Interpreter)
+    execute_process(
+      COMMAND
+        ${Python3_EXECUTABLE} -m aqt install-qt #
+        --outputdir ${CMAKE_BINARY_DIR}/qt6-host-build #
+        linux desktop ${QT_VERSION} gcc_64 #
+      WORKING_DIRECTORY ${CMAKE_BINARY_DIR} #
+                        COMMAND_ERROR_IS_FATAL ANY)
 
-  build_qt(
-    VERSION
-    ${QT_VERSION}
-    MODULES
-    qtbase
-    CMAKE_OPTIONS
-    -DQT_HOST_PATH=${CMAKE_BINARY_DIR}/qt6-host-build/${QT_VERSION}/gcc_64
-    -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
-    -DCMAKE_BUILD_TYPE=Release
-    -DINPUT_optimize_size=ON
-    -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
-    -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=${DCMAKE_INTERPROCEDURAL_OPTIMIZATION}
-    # Disable features that are not needed
-    -DFEATURE_accessibility=OFF
-    -DFEATURE_dbus=OFF
-    -DFEATURE_cssparser=OFF
-    -DFEATURE_glib=OFF
-    -DFEATURE_fontconfig=OFF
-    -DFEATURE_gif=OFF
-    -DFEATURE_ico=OFF
-    -DFEATURE_libjpeg=OFF
-    -DFEATURE_libpng=OFF
-    -DFEATURE_png=OFF
-    -DFEATURE_printsupport=OFF
-    -DFEATURE_sql=OFF
-    -DFEATURE_system_doubleconversion=OFF
-    -DFEATURE_system_freetype=OFF
-    -DFEATURE_system_harfbuzz=OFF
-    -DFEATURE_system_libb2=OFF
-    -DFEATURE_system_pcre2=OFF
-    -DFEATURE_system_zlib=OFF
-    -DFEATURE_testlib=OFF
-    -DFEATURE_texthtmlparser=OFF
-    -DFEATURE_textmarkdownreader=OFF
-    -DFEATURE_textmarkdownwriter=OFF
-    -DFEATURE_textodfwriter=OFF
-    -DFEATURE_vulkan=OFF
-    -DFEATURE_xml=OFF
-    # Enable freetype and harfbuzz to get some sort of font support
-    -DFEATURE_freetype=ON
-    -DFEATURE_harfbuzz=ON
-    # No FEATURE flags yet
-    -DINPUT_libjpeg=no
-    -DINPUT_libmd4c=no)
+    build_qt(
+      VERSION
+      ${QT_VERSION}
+      MODULES
+      qtbase
+      CMAKE_OPTIONS
+      -DQT_HOST_PATH=${CMAKE_BINARY_DIR}/qt6-host-build/${QT_VERSION}/gcc_64
+      -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+      -DCMAKE_BUILD_TYPE=Release
+      -DINPUT_optimize_size=ON
+      -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
+      -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=${DCMAKE_INTERPROCEDURAL_OPTIMIZATION}
+      # Disable features that are not needed
+      -DFEATURE_accessibility=OFF
+      -DFEATURE_dbus=OFF
+      -DFEATURE_cssparser=OFF
+      -DFEATURE_glib=OFF
+      -DFEATURE_fontconfig=OFF
+      -DFEATURE_gif=OFF
+      -DFEATURE_ico=OFF
+      -DFEATURE_libjpeg=OFF
+      -DFEATURE_libpng=OFF
+      -DFEATURE_png=OFF
+      -DFEATURE_printsupport=OFF
+      -DFEATURE_sql=OFF
+      -DFEATURE_system_doubleconversion=OFF
+      -DFEATURE_system_freetype=OFF
+      -DFEATURE_system_harfbuzz=OFF
+      -DFEATURE_system_libb2=OFF
+      -DFEATURE_system_pcre2=OFF
+      -DFEATURE_system_zlib=OFF
+      -DFEATURE_testlib=OFF
+      -DFEATURE_texthtmlparser=OFF
+      -DFEATURE_textmarkdownreader=OFF
+      -DFEATURE_textmarkdownwriter=OFF
+      -DFEATURE_textodfwriter=OFF
+      -DFEATURE_vulkan=OFF
+      -DFEATURE_xml=OFF
+      # Enable freetype and harfbuzz to get some sort of font support
+      -DFEATURE_freetype=ON
+      -DFEATURE_harfbuzz=ON
+      # No FEATURE flags yet
+      -DINPUT_libjpeg=no
+      -DINPUT_libmd4c=no)
+  endif()
 endif()
 
 find_qt(REQUIRED COMPONENTS Core Widgets)
@@ -194,6 +195,7 @@ if(CMAKE_BUILD_TYPE STREQUAL Release)
         ${CQTDEPLOYER_EXECUTABLE} #
         clear #
         noTranslations #
+        qif #
         -bin $<TARGET_FILE:QtPlayground> #
         -qmake ${QMAKE_EXECUTABLE} #
         -libDir ${LIB_DIR} #
@@ -203,11 +205,14 @@ if(CMAKE_BUILD_TYPE STREQUAL Release)
         -targetDir ${CMAKE_BINARY_DIR}/deploy #
         -verbose 3 #
         -platform linux_x86_64 #
+        -qifBanner ${CMAKE_CURRENT_SOURCE_DIR}/data/images/banner.png #
+        -qifOut QtPlayground-${PROJECT_VERSION}-x86_64 #
+        -qifConfig ${CMAKE_BINARY_DIR}/config.xml #
     )
 
   elseif(CMAKE_SYSTEM_NAME STREQUAL Windows)
     #
-    find_package(CQtDeployer 1.6.2323 COMPONENTS Linux)
+    find_package(CQtDeployer 1.6.2345 COMPONENTS Linux Windows)
     file(GLOB_RECURSE QMAKE_EXECUTABLE ${QT_BINARY_DIR}/*/qmake)
 
     # GUI executable instead of a console application
@@ -216,6 +221,9 @@ if(CMAKE_BUILD_TYPE STREQUAL Release)
     # For Windows we need Qt and system libs, so use CMAKE_FIND_ROOT_PATH
     list(JOIN CMAKE_FIND_ROOT_PATH "," LIB_DIR)
 
+    # Wine
+    find_program(WINE_EXECUTABLE wine REQUIRED)
+
     add_custom_command(
       TARGET QtPlayground
       POST_BUILD
@@ -223,7 +231,7 @@ if(CMAKE_BUILD_TYPE STREQUAL Release)
         ${CQTDEPLOYER_EXECUTABLE} #
         clear #
         noTranslations #
-        deploySystem #
+        qif #
         -bin $<TARGET_FILE:QtPlayground> #
         -qmake ${QMAKE_EXECUTABLE} #
         -libDir ${LIB_DIR} #
@@ -231,6 +239,9 @@ if(CMAKE_BUILD_TYPE STREQUAL Release)
         -targetDir ${CMAKE_BINARY_DIR}/deploy #
         -verbose 3 #
         -platform win_x86_64 #
-    )
+        -qifBanner ${CMAKE_CURRENT_SOURCE_DIR}/data/images/banner.png #
+        -qifOut QtPlayground-${PROJECT_VERSION}-x86_64 #
+        -qifConfig ${CMAKE_BINARY_DIR}/config.xml #
+        -binarycreator "${WINE_EXECUTABLE} ${BINARYCREATOR_WINDOWS_EXECUTABLE}")
   endif()
 endif()
